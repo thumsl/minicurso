@@ -17,6 +17,8 @@ static void mesh_loadToVao(mesh *model, float *vertices, unsigned int *indices);
 mesh* mesh_createFromArrays(float *vertices, unsigned int *indices, 
 	unsigned int vertexCount, unsigned int indexCount);
 
+void mesh_draw(mesh *model);
+
 // mesh* mesh_createFromFile(nomeDoArquivo.obj);
 
 #endif // MESH_H

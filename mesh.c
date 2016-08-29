@@ -35,3 +35,8 @@ mesh* mesh_createFromArrays(float *vertices, unsigned int *indices,
 
 	return model;
 }
+
+void mesh_draw(mesh *model) {
+	glBindVertexArray(model->VAO);
+	glDrawElements(GL_TRIANGLES, model->indexCount, GL_UNSIGNED_INT, 0);
+}
