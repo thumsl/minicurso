@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "mesh.h"
 #include "window.h"
 
 #define WIDTH 800
