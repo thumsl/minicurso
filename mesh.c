@@ -1,30 +1,17 @@
 #include <stdlib.h>
 #include "mesh.h"
 
-static void mesh_loadToVao(mesh *model, float *vertices, unsgined int *indices) {
-	/*
-		Gerar VAO
-		Gerars os buffers
-
-		linkar um VAO
-			envia dados para GPU
-			(textura, posicao, normal, cor, etc)
-		deslinkar
-	*/
-
+static void mesh_loadToVao(mesh *model, float *vertices, unsigned int *indices) {
 	glBindVertexArray(model->VAO);
-
-	// LINKAR UM BUFFER
-	// ENVIAR DADOS REFERENTE
 
 	glBindBuffer(GL_ARRAY_BUFFER, model->VBO);
 	glBufferData(GL_ARRAY_BUFFER, model->vertexCount * 3 * sizeof(float), vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0); // <===
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model->indexCount * sizeof(unsgined int), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model->indexCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 }
 
 static void mesh_init(mesh *model) {
@@ -34,8 +21,8 @@ static void mesh_init(mesh *model) {
 	glGenBuffers(1, &(model->IBO));
 }
 
-mesh* mesh_createFromArrays(float *vertices, unsgined int *indices, 
-	unsgined int vertexCount, unsgined int indexCount) {
+mesh* mesh_createFromArrays(float *vertices, unsigned int *indices, 
+	unsigned int vertexCount, unsigned int indexCount) {
 
 	mesh *model = (mesh*)malloc(sizeof(mesh));
 
