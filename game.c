@@ -8,6 +8,13 @@ int main() {
 	if (!initOpenGL())
 		return 1;
 
+	shader* S = shader_createFromFile("shader.vert", "shader.frag");
+
+	if (S == NULL)
+		return 1;
+	
+	shader_use(S);
+
 	float vertices[] = {
 		-1, -1, 0,
 		 1, -1, 0,

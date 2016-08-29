@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "mesh.h"
+#include "shader.h"
 #include "window.h"
 
 #define WIDTH 800
