@@ -7,15 +7,17 @@ typedef struct mesh {
 	GLuint VAO;
 	GLuint VBO;
 	GLuint IBO;
+	GLuint textureID;
 	unsigned int vertexCount;
 	unsigned int indexCount;
 } mesh;
 
 static void mesh_init(mesh *model);
 static void mesh_loadToVao(mesh *model, float *vertices, unsigned int *indices);
+static void mesh_loadTexture(mesh *model, const char *texturePath);
 
 mesh* mesh_createFromArrays(float *vertices, unsigned int *indices, 
-	unsigned int vertexCount, unsigned int indexCount);
+	unsigned int vertexCount, unsigned int indexCount, const char *texturePath);
 
 void mesh_draw(mesh *model);
 

@@ -23,12 +23,12 @@ int main() {
 
 	unsigned int indices[] = {0, 1, 2};
 
-	mesh *triangulo = mesh_createFromArrays(vertices, indices, 3, 3);
+	mesh *triangulo = mesh_createFromArrays(vertices, indices, 3, 3, NULL);
 
 	bool running = true;
 	SDL_Event event;
 
-//	glClearColor(1.0f,1.0f,1.0f,1.0f);
+	glClearColor(1.0f, 0.0f, 1.0f,1.0f);
 
 	while (running) {
 		/* INPUT HANDLING */

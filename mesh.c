@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <SDL2/SDL_image.h>
 #include "mesh.h"
 
 static void mesh_loadToVao(mesh *model, float *vertices, unsigned int *indices) {
@@ -15,14 +16,35 @@ static void mesh_loadToVao(mesh *model, float *vertices, unsigned int *indices) 
 }
 
 static void mesh_init(mesh *model) {
-	// (QUANTIDADE DE BUFFERS, ARMAZENAMENTO DO PONTEIRO PRO BUFFER)
 	glGenVertexArrays(1, &(model->VAO));
+
 	glGenBuffers(1, &(model->VBO));
 	glGenBuffers(1, &(model->IBO));
+
+	glGenTextures(1, &(model->textureID));
+}
+
+static void mesh_loadTexture(mesh *model, const char *texturePath) {
+	SDL_Surface *texture = IMG_Load(texturePath);
+
+	if (texture == NULL) {
+		fprintf(stderr, "Error: failed to load texture %s.\n%s\n", texturePath, IMG_GetError());
+		return;
+	}
+
+	glBindTexture(GL_TEXTURE_2D, model->textureID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->w, texture->h, 0, GL_RGB, 
+		GL_UNSIGNED_BYTE, texture->pixels);
+
+	SDL_FreeSurface(texture);
 }
 
 mesh* mesh_createFromArrays(float *vertices, unsigned int *indices, 
-	unsigned int vertexCount, unsigned int indexCount) {
+	unsigned int vertexCount, unsigned int indexCount, const char *texturePath) {
 
 	mesh *model = (mesh*)malloc(sizeof(mesh));
 
@@ -33,10 +55,14 @@ mesh* mesh_createFromArrays(float *vertices, unsigned int *indices,
 
 	mesh_loadToVao(model, vertices, indices);
 
+	if (texturePath != NULL)
+		mesh_loadTexture(model, texturePath);
+
 	return model;
 }
 
 void mesh_draw(mesh *model) {
 	glBindVertexArray(model->VAO);
+	glBindTexture(GL_TEXTURE_2D, model->textureID);
 	glDrawElements(GL_TRIANGLES, model->indexCount, GL_UNSIGNED_INT, 0);
 }
