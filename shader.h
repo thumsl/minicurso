@@ -3,6 +3,7 @@
 
 typedef struct shader {
 	GLuint program;
+	GLuint locTransform;
 } shader;
 
 shader* shader_createFromFile(const char *vertexShaderPath, 

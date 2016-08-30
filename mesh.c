@@ -28,6 +28,10 @@ static void mesh_init(mesh *model) {
 	glGenBuffers(1, &(model->IBO));
 
 	glGenTextures(1, &(model->textureID));
+
+	mat4x4_identity(model->matrices.rotate);
+	mat4x4_identity(model->matrices.scale);
+	mat4x4_identity(model->matrices.translate);
 }
 
 static void mesh_loadTexture(mesh *model, const char *texturePath) {
@@ -67,8 +71,31 @@ mesh* mesh_createFromArrays(float *vertices, unsigned int *indices,
 	return model;
 }
 
-void mesh_draw(mesh *model) {
+void mesh_draw(mesh *model, shader *S) {
+	glUniformMatrix4fv(S->locTransform, 1, 0, (GLfloat*)model->matrices.transform);
+
+	// DRAW
 	glBindVertexArray(model->VAO);
 	glBindTexture(GL_TEXTURE_2D, model->textureID);
 	glDrawElements(GL_TRIANGLES, model->indexCount, GL_UNSIGNED_INT, 0);
+}
+
+
+void mesh_translate(mesh *model, float x, float y, float z) {
+	mat4x4_translate(model->matrices.translate, x, y, z);
+}
+
+void mesh_rotate(mesh *model, bool x, bool y, bool z, float angle) {
+	mat4x4_rotate(model->matrices.rotate, model->matrices.rotate, x, y, z, angle);
+}
+
+void mesh_scale(mesh *model, float x, float y, float z) {
+	mat4x4_scale_aniso(model->matrices.scale, model->matrices.scale, x, y, z);
+}
+
+void mesh_updateTransformationMatrix(mesh *model) {
+	// translate * rotacao * scale
+
+	mat4x4_mul(model->matrices.transform, model->matrices.rotate, model->matrices.scale);
+	mat4x4_mul(model->matrices.transform, model->matrices.translate, model->matrices.transform);
 }

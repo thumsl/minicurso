@@ -73,6 +73,8 @@ shader* shader_createFromFile(const char *vertexShaderPath,	const char *fragment
 
 	glLinkProgram(S->program);
 
+	S->locTransform = glGetUniformLocation(S->program, "transform");
+
 	return S;
 }
 
