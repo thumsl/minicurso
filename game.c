@@ -16,14 +16,14 @@ int main() {
 	shader_use(S);
 
 	float vertices[] = {
-		-1, -1, 0,
-		 1, -1, 0,
-		 0,  1, 0 
+		-1, -1, 0, 0, 0,
+		 1, -1, 0, 0.5, 1,
+		 0,  1, 0, 0, 1
 	};
 
 	unsigned int indices[] = {0, 1, 2};
 
-	mesh *triangulo = mesh_createFromArrays(vertices, indices, 3, 3, NULL);
+	mesh *triangulo = mesh_createFromArrays(vertices, indices, 3, 3, "doge.jpeg");
 
 	bool running = true;
 	SDL_Event event;

@@ -2,6 +2,10 @@
 
 out vec4 outColor;
 
+in vec2 fragTexture;
+
+uniform sampler2D sampler;
+
 void main() {
-	outColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	outColor = texture2D(sampler, fragTexture);
 }
